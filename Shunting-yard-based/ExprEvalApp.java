@@ -1,23 +1,13 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Stack;
 import java.util.EmptyStackException;
 
 public class ExprEvalApp {
     public static void main(String[] args) throws Exception {
-        String text = "";
-
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            text += scanner.nextLine();
-        }
-        scanner.close();
-
-        CodePointCharStream codePointCharStream = CharStreams.fromString(text);
-
-        ExprLexer lexer = new ExprLexer(codePointCharStream);
+        CharStream charStream = CharStreams.fromFileName(args[0]);
+        ExprLexer lexer = new ExprLexer(charStream);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExprParser parser = new ExprParser(tokens);
         ParseTreeWalker walker = new ParseTreeWalker();
