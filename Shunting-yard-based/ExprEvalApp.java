@@ -27,6 +27,8 @@ public class ExprEvalApp {
 class ExprWalker extends ExprBaseListener {
     HashMap<String, Double> variables = new HashMap<String, Double>();
 
+    Boolean error;
+
     @Override
     public void enterProgram(ExprParser.ProgramContext ctx) {
         //System.out.println("Entering Program");
@@ -49,16 +51,18 @@ class ExprWalker extends ExprBaseListener {
 
     @Override
     public void enterAssign(ExprParser.AssignContext ctx) {
-        //System.out.println("Entering Assign");
+        error = false;
     }
 
     @Override
     public void exitAssign(ExprParser.AssignContext ctx) {
-        if(ctx.ID() != null && ctx.number() != null) {
-            try {
-                double value = Double.parseDouble(ctx.number().getChild(0).getText());
-                variables.put(ctx.ID().getText(), value);
-            } catch(Exception e) { }
+        if(!error) {
+            if(ctx.id() != null && ctx.number() != null) {
+                try {
+                    double value = Double.parseDouble(ctx.number().getChild(0).getText());
+                    variables.put(ctx.id().getText(), value);
+                } catch(Exception e) { }
+            }
         }
     }
 
@@ -89,6 +93,6 @@ class ExprWalker extends ExprBaseListener {
 
     @Override
     public void visitErrorNode(ErrorNode node) {
-        //System.out.println("Visiting Error Node");
+        error = true;
     }
 }

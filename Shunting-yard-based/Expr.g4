@@ -2,12 +2,15 @@ grammar Expr;
 
 // Parser rule
 program: ( assign ';' | expression ';' )* ;
-expression: '(' expression ')'
-          | expression ( '*' | '/' ) expression
-          | expression ( '+' | '-' ) expression
-          | ID
+expression: parenthesis expression parenthesis
+          | expression operator expression
+          | id
           | number ;
-assign: ID '=' number ;
+assign: id '=' number ;
+parenthesis: ( '(' | ')' ) ;
+operator: ( '*' | '/' )
+        | ( '+' | '-' ) ;
+id: ID ;
 number: INT
       | REAL ;
 
