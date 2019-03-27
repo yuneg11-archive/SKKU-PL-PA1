@@ -46,12 +46,12 @@ class ExprWalker extends ExprBaseListener {
                 } catch(Exception e) {
                     System.out.println("Expression Error");
                 }
-
-                values.clear();
-                operators.clear();
             } else {
                 System.out.println("Expression Error");
             }
+
+            values.clear();
+            operators.clear();
         }
     }
 
