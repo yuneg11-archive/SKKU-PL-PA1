@@ -27,21 +27,11 @@ public class ExprEvalApp {
 }
 
 class ExprWalker extends ExprBaseListener {
-    HashMap<String, Double> variables = new HashMap<String, Double>();
-    Stack<String> operators = new Stack<String>();
-    Stack<Double> values = new Stack<Double>();
+    HashMap<String, Double> variables = new HashMap<>();
+    Stack<String> operators = new Stack<>();
+    Stack<Double> values = new Stack<>();
 
     Boolean error;
-
-    @Override
-    public void enterProgram(ExprParser.ProgramContext ctx) {
-        //System.out.println("Entering Program");
-    }
-
-    @Override
-    public void exitProgram(ExprParser.ProgramContext ctx) {
-        //System.out.println("Exiting Program");
-    }
 
     @Override
     public void enterExpression(ExprParser.ExpressionContext ctx) {
@@ -93,11 +83,6 @@ class ExprWalker extends ExprBaseListener {
     }
 
     @Override
-    public void enterParenthesis(ExprParser.ParenthesisContext ctx) {
-        //System.out.println("Entering Parenthesis");
-    }
-
-    @Override
     public void exitParenthesis(ExprParser.ParenthesisContext ctx) {
         if(ctx.getText().equals("(")) {
             operators.push("(");
@@ -116,11 +101,6 @@ class ExprWalker extends ExprBaseListener {
     }
 
     @Override
-    public void enterOperator(ExprParser.OperatorContext ctx) {
-        //System.out.println("Entering Operator");
-    }
-
-    @Override
     public void exitOperator(ExprParser.OperatorContext ctx) {
         try {
             while(getOperatorPriority(operators.peek()) >= getOperatorPriority(ctx.getText())) {
@@ -135,11 +115,6 @@ class ExprWalker extends ExprBaseListener {
     }
 
     @Override
-    public void enterId(ExprParser.IdContext ctx) {
-        //System.out.println("Entering Id");
-    }
-
-    @Override
     public void exitId(ExprParser.IdContext ctx) {
         if(ctx.parent.getRuleIndex() == ExprParser.RULE_expression) {
             if(variables.get(ctx.getText()) != null) {
@@ -151,11 +126,6 @@ class ExprWalker extends ExprBaseListener {
     }
 
     @Override
-    public void enterNumber(ExprParser.NumberContext ctx) {
-        //System.out.println("Entering Number");
-    }
-
-    @Override
     public void exitNumber(ExprParser.NumberContext ctx) {
         if(ctx.parent.getRuleIndex() == ExprParser.RULE_expression) {
             try {
@@ -164,21 +134,6 @@ class ExprWalker extends ExprBaseListener {
                 error = true;
             }
         }
-    }
-
-    @Override
-    public void enterEveryRule(ParserRuleContext ctx) {
-        //System.out.println("Entering Every Rule");
-    }
-
-    @Override
-    public void exitEveryRule(ParserRuleContext ctx) {
-        //System.out.println("Exiting Every Rule");
-    }
-
-    @Override
-    public void visitTerminal(TerminalNode node) {
-        //System.out.println("Visiting Terminal");
     }
 
     @Override
